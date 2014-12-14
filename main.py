@@ -1,11 +1,11 @@
 import pygame
 from pygame.locals import *
 
-from elements import Ship,EnemyBot,Bullet
+from elements import Army,EnemyBot,Bullet
 import gamelib
 import random
 
-class SpaceShipGame(gamelib.SimpleGame):
+class ArmyVsZombie(gamelib.SimpleGame):
     
     BLACK = pygame.Color('black')
     WHITE = pygame.Color('white')
@@ -15,8 +15,8 @@ class SpaceShipGame(gamelib.SimpleGame):
     
     
     def __init__(self):
-        super(SpaceShipGame, self).__init__('SpaceShip', SpaceShipGame.BLACK)
-        self.ship = Ship((320,500))
+        super(ArmyVsZombie, self).__init__('ArmyZombie', ArmyVsZombie.BLACK)
+        self.army = Army((320,500))
         self.random = random
         self.bullets = []
         self.enemies = []
@@ -33,7 +33,7 @@ class SpaceShipGame(gamelib.SimpleGame):
             self.bullets.append(bullet)
     
     def init(self):
-        super(SpaceShipGame, self).init()
+        super(ArmyVsZombie, self).init()
         self.render_score()
         self.render_hp()
     def update(self):
@@ -41,15 +41,15 @@ class SpaceShipGame(gamelib.SimpleGame):
         if not self.game_over: 
             self.reload -= 1
             if self.is_key_pressed(K_LEFT):
-                self.ship.move_left()
+                self.army.move_left()
             elif self.is_key_pressed(K_RIGHT):
-                self.ship.move_right()
+                self.army.move_right()
             
             if self.is_key_pressed(K_SPACE) and self.reload <= 0:
 
                 for bullet in self.bullets:
                     if(bullet.getY() <= -10):
-                        bullet.setposbullet(self.ship.getX()+33,self.ship.getY())
+                        bullet.setposbullet(self.army.getX()+33,self.army.getY())
                         self.reload = 20
                         break
 
@@ -61,7 +61,7 @@ class SpaceShipGame(gamelib.SimpleGame):
                     self.render_hp()
                     #print self.hp
                     
-                if ((enemy.y+30 > self.ship.y-30) and (self.ship.y+30 > enemy.y-30) and (self.ship.x-40 < enemy.x < self.ship.x+40 )):   
+                if ((enemy.y+30 > self.army.y-30) and (self.army.y+30 > enemy.y-30) and (self.army.x-40 < enemy.x < self.army.x+40 )):   
                     enemy.y = random.randrange(-800,-600,10)
                     self.hp -= 1
                     self.render_hp()
@@ -84,13 +84,13 @@ class SpaceShipGame(gamelib.SimpleGame):
         if self.hp == 0:
             self.game_over = True
     def render_score(self):
-        self.score_image = self.font.render("Score = %d" % self.score, 0, SpaceShipGame.WHITE)
+        self.score_image = self.font.render("Score = %d" % self.score, 0, ArmyVsZombie.WHITE)
     
     def  render_hp(self):
-        self.hp_image = self.font.render("HP = %d" % self.hp, 0, SpaceShipGame.WHITE)
+        self.hp_image = self.font.render("HP = %d" % self.hp, 0, ArmyVsZombie.WHITE)
 
     def render(self, surface):
-        self.ship.render(surface)
+        self.army.render(surface)
         for enemy in self.enemies:
             enemy.render(surface)
         for bullet in self.bullets:
@@ -98,7 +98,7 @@ class SpaceShipGame(gamelib.SimpleGame):
         surface.blit(self.score_image, (10,10))
         surface.blit(self.hp_image, (680,10))
 def main():
-    game = SpaceShipGame()
+    game = ArmyVsZombie()
     game.run()
 
 if __name__ == '__main__':

@@ -1,44 +1,85 @@
 import pygame
-from pygame.locals import *
 import random
+from pygame.locals import *
 
-class Player(object):
-	def __init__(self, pos):
-                (self.x, self.y) = pos
-		self.random = random
-		self.player = pygame.image.load("soldier.png")
-		
+class Army(object):
 
-	def move_up(self):
-		self.y -= 5
-		
-	def move_down(self):
-		self.y += 5
-		
+    def __init__(self, pos):
+        (self.x, self.y) = pos
+        
+        self.image = pygame.image.load("soldier.png")
 
-	def render(self, surface):
-		pos = (int(self.x),int(self.y))
-		
-		surface.blit(self.player, pos)
+    def getX(self):
+        return int(self.x)
 
-class Zombie(object):
-	def __init__(self, pos):
-		(self.x, self.y) = pos
-		
-		self.zombie = pygame.image.load("zombie.png")
-		
+    def getY(self):
+        return int(self.y)
 
-	def move(self):
-		self.x += 2
-		if (self.x > 900):
-                        self.x = -300
-                        self.x = random.randrange(-100,150,50)
-		
+    def move_left(self):
+        self.x -= 8
+        if self.x < 0:
+            self.x = 0
 
-	def render(self, surface):
-		pos = (int(self.x),int(self.y))
-		
-		surface.blit(self.zombie, pos)
-		
-		
+    def move_right(self):
+        self.x += 8
+        if self.x > 750:
+            self.x = 750
+   
+    
+    def render(self, surface):
+        pos = (int(self.x),int(self.y))
+        surface.blit(self.image,pos)
 
+class EnemyBot(object):
+    
+
+    def __init__(self, pos):
+        (self.x, self.y) = pos
+        self.random = random
+        self.image = pygame.image.load("zombie.png")
+
+    def movement(self):
+        self.y += random.randrange(3,5,1)
+
+
+    #def  wrapup(self):
+     #   self.random = random
+      #  if self.y > 620:
+       #     self.y = random.randrange(-300,-100,50) 
+            
+        
+    
+    def render(self, surface):
+        pos = (int(self.x),int(self.y))
+        surface.blit(self.image,pos)
+        
+
+class Bullet(object):
+
+    
+    def __init__(self, pos, speed):
+        self.x = pos[0]
+        self.y = pos[1]
+        (self.vx, self.vy) = speed 
+        self.image = pygame.image.load("Bullet.png")
+    
+    def getY(self):
+        return self.y 
+
+        
+
+    def  bulletmove(self):
+        
+        self.x += self.vx
+        self.y += self.vy
+
+    def setposbullet(self, x, y):
+        self.x = x
+        self.y = y
+
+    def render(self, surface):
+        pos = (int(self.x),int(self.y))
+        surface.blit(self.image,pos)
+        
+
+    
