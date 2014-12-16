@@ -15,18 +15,18 @@ class ArmyVsZombie(gamelib.SimpleGame):
     
     
     def __init__(self):
-        super(ArmyVsZombie, self).__init__('ArmyZombie', ArmyVsZombie.BLACK)
+        super(ArmyVsZombie, self).__init__('ArmyZombie', ArmyVsZombie.WHITE)
         self.army = Army((320,500))
         self.random = random
         self.bullets = []
         self.enemies = []
         self.reload = 0
-        self.hp = 10
+        self.hp = 20
         self.score = 0
         self.game_over = False
         
-        for i in range(0,5):
-            enemy = EnemyBot((i*160,random.randrange(-400,-100,10)))
+        for i in range(0,6):
+            enemy = EnemyBot((i*160,random.randrange(-300,-50,10)))
             self.enemies.append(enemy)
         for bullet in range(0,100):
             bullet = Bullet((-10,-400),(0,-7))
@@ -84,10 +84,10 @@ class ArmyVsZombie(gamelib.SimpleGame):
         if self.hp == 0:
             self.game_over = True
     def render_score(self):
-        self.score_image = self.font.render("Score = %d" % self.score, 0, ArmyVsZombie.WHITE)
+        self.score_image = self.font.render("Score = %d" % self.score, 0, ArmyVsZombie.BLACK)
     
     def  render_hp(self):
-        self.hp_image = self.font.render("HP = %d" % self.hp, 0, ArmyVsZombie.WHITE)
+        self.hp_image = self.font.render("HP = %d" % self.hp, 0, ArmyVsZombie.BLACK)
 
     def render(self, surface):
         self.army.render(surface)
